@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRouter";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -18,3 +19,4 @@ app.use(
     })
 );
 app.use(authRouter);
+app.use(cookieParser())
