@@ -10,10 +10,12 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
+  id          Int    @id @default(autoincrement())
+  name        String
+  email       String @unique
+  password    String
+  city        String?
+  phoneNumber BigInt?
 
   @@map("users")
 }

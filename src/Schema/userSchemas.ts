@@ -12,4 +12,16 @@ const loginSchema = z.object({
     password: z.string().min(6),
 });
 
-export { registrationSchema,loginSchema };
+const updateSchema = z.object({
+    name: z.string().min(2),
+    email: z.string().email(),
+    city: z.string(),
+    phoneNumber: z.number(),
+})
+
+type updateType = z.infer<typeof updateSchema>
+  
+
+
+
+export { registrationSchema,loginSchema,updateSchema,updateType };
