@@ -14,8 +14,5 @@ model User {
   name        String
   email       String @unique
   password    String
-  city        String?
-  phoneNumber BigInt?
-
   @@map("users")
 }

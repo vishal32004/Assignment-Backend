@@ -3,7 +3,7 @@
 import { z } from 'zod';
 
 const registrationSchema = z.object({
-    name: z.string().min(2),
+    name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
 });
@@ -15,8 +15,7 @@ const loginSchema = z.object({
 const updateSchema = z.object({
     name: z.string().min(2),
     email: z.string().email(),
-    city: z.string(),
-    phoneNumber: z.number(),
+    // password: z.string()
 })
 
 type updateType = z.infer<typeof updateSchema>

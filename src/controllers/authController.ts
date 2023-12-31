@@ -8,8 +8,8 @@ const prisma = new PrismaClient()
 const bcrypt = require('bcrypt');
 dotenv.config();
 
-const registerUser = async (req: Request, res: Response) => {
-    const { name, email, password } = registrationSchema.parse(req.body);;
+const register = async (req: Request, res: Response) => {
+    const { name, email, password } = registrationSchema.parse(req.body);
     try {
         const existingUser = await prisma.user.findUnique({ where: { email } });
 
@@ -27,7 +27,7 @@ const registerUser = async (req: Request, res: Response) => {
             },
         });
 
-        generateToken(res, newUser.id);
+        // generateToken(res, newUser.id);
         return res.status(201).json({
             id: newUser.id,
             name: newUser.name,
@@ -83,4 +83,4 @@ const logoutUser = async (req: Request, res: Response) => {
     }
 };
 
-export { registerUser, authenticateUser, logoutUser };
+export { register, authenticateUser, logoutUser };
