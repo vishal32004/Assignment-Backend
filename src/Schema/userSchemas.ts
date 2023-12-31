@@ -18,9 +18,13 @@ const updateSchema = z.object({
     // password: z.string()
 })
 
+const updatePasswordSchema = z.object({
+    password: z.string()
+})
+
 type updateType = z.infer<typeof updateSchema>
   
 
 
 
-export { registrationSchema,loginSchema,updateSchema,updateType };
+export { registrationSchema,loginSchema,updateSchema,updateType,updatePasswordSchema };
