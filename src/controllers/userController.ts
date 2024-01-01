@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 import { updatePasswordSchema, updateSchema } from "../Schema/userSchemas";
 const bcrypt = require('bcrypt');
 
-
 const prisma = new PrismaClient();
 
 const getUser = async (req: Request, res: Response) => {

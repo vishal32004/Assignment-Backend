@@ -1,4 +1,3 @@
-// userSchemas.js
 
 import { z } from 'zod';
 
@@ -15,7 +14,6 @@ const loginSchema = z.object({
 const updateSchema = z.object({
     name: z.string().min(2),
     email: z.string().email(),
-    // password: z.string()
 })
 
 const updatePasswordSchema = z.object({
