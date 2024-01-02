@@ -1,11 +1,15 @@
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-import dotenv from "dotenv";
-dotenv.config();
 
-const generateToken = (res: Response, userId: number) => {
+interface TokenPayload {
+  userId: number;
+  userEmail: string;
+  roles: string[];
+}
+
+const generateToken = (res: Response, payload: TokenPayload) => {
   const jwtSecret = process.env.JWT_SECRET || "";
-  const token = jwt.sign({ userId }, jwtSecret, {
+  const token = jwt.sign(payload, jwtSecret, {
     expiresIn: "1h",
   });
 

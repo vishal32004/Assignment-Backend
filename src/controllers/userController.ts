@@ -31,9 +31,31 @@ const getUser = async (req: Request, res: Response) => {
 
         res.status(200).json(user);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
+const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            },
+        });
+
+        res.status(200).json(
+            users.map((user) => {
+                return { id: user.id, name: user.name, email: user.email };
+            })
+        );
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 
 const updateUserDetails = async (req: Request, res: Response) => {
     try {
@@ -74,34 +96,34 @@ const updateUserDetails = async (req: Request, res: Response) => {
 
 const updatePassword = async (req: Request, res: Response) => {
     try {
-      const userId = req.user?.id;
-  
-      if (!userId) {
-        return res.status(400).json({ error: "User ID not found" });
-      }
-  
-      const { password } = updatePasswordSchema.parse(req.body);
-  
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      await prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          password: hashedPassword,
-        },
-        select: {
-            name: true,
-            email: true,
-        },
-      });
-  
-      return res.status(200).json({ message: "Password updated successfully" });
-    } catch (error) {
-      console.error("Error updating password:", error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  };
+        const userId = req.user?.id;
 
-export { getUser, updateUserDetails,updatePassword };
+        if (!userId) {
+            return res.status(400).json({ error: "User ID not found" });
+        }
+
+        const { password } = updatePasswordSchema.parse(req.body);
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                password: hashedPassword,
+            },
+            select: {
+                name: true,
+                email: true,
+            },
+        });
+
+        return res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error updating password:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+export { getUser, getUsers, updateUserDetails, updatePassword };

@@ -15,6 +15,7 @@ interface UserBasicInfo {
     id: number;
     name: string;
     email: string;
+    roles: string[];
 }
 declare global {
     namespace Express {

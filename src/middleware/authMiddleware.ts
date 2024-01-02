@@ -17,7 +17,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
         const jwtSecret = process.env.JWT_SECRET || "";
         const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
 
-        if (!decoded || !decoded.userId) {
+        if (!decoded || !decoded.userId || !decoded.userEmail) {
             res.status(401);
             throw new AuthenticationError("UserId not found");
         }
@@ -30,6 +30,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
                 id: true,
                 name: true,
                 email: true,
+                roles: true
             },
         });
 
@@ -46,4 +47,19 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
     }
 });
 
-export { authenticate };
+
+const authorize = (allowedRoles: string[]) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        const userRoles = req.user?.roles;
+
+        if (
+            !userRoles ||
+            !userRoles.some((role: string) => allowedRoles.includes(role))
+        ) {
+            return res.status(403).json({ message: "Access denied" });
+        }
+        next();
+    };
+};
+
+export { authenticate,authorize };
