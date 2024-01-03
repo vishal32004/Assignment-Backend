@@ -43,12 +43,13 @@ const getUsers = async (req: Request, res: Response) => {
                 id: true,
                 name: true,
                 email: true,
+                roles: true
             },
         });
 
         res.status(200).json(
             users.map((user) => {
-                return { id: user.id, name: user.name, email: user.email };
+                return { id: user.id, name: user.name, email: user.email, roles: user.roles};
             })
         );
     } catch (error) {
@@ -126,4 +127,31 @@ const updatePassword = async (req: Request, res: Response) => {
     }
 };
 
-export { getUser, getUsers, updateUserDetails, updatePassword };
+const updateUserRole = async (req: Request, res: Response) => {
+    try {
+        const { userId, role } = req.body;
+        console.log(req.body)
+
+        if (!userId || !role) {
+            return res.status(400).json({ error: "User ID and new role are required" });
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                roles: role,
+            },
+        });
+
+        return res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error updating user role:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+
+export { getUser, getUsers, updateUserDetails, updatePassword,updateUserRole };
