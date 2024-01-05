@@ -61,7 +61,7 @@ const authenticateUser = async (req: Request, res: Response) => {
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (passwordMatch) {
-            generateToken(res, {
+          const token = generateToken(res, {
                 userId: user.id,
                 userEmail: user.email,
                 roles: user.roles,
@@ -71,6 +71,7 @@ const authenticateUser = async (req: Request, res: Response) => {
                 name: user.name,
                 email: user.email,
                 roles: user.roles,
+                token: token
             });
         } else {
             return res.status(401).json({ message: 'User not found / password incorrect' });
