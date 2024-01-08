@@ -21,6 +21,7 @@ const getUser = async (req: Request, res: Response) => {
             select: {
                 name: true,
                 email: true,
+                roles: true
             },
         });
 
