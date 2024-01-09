@@ -50,7 +50,7 @@ const getUsers = async (req: Request, res: Response) => {
 
         res.status(200).json(
             users.map((user) => {
-                return { id: user.id, name: user.name, email: user.email, roles: user.roles};
+                return { id: user.id, name: user.name, email: user.email, roles: user.roles };
             })
         );
     } catch (error) {
@@ -155,4 +155,4 @@ const updateUserRole = async (req: Request, res: Response) => {
 
 
 
-export { getUser, getUsers, updateUserDetails, updatePassword,updateUserRole };
+export { getUser, getUsers, updateUserDetails, updatePassword, updateUserRole };
